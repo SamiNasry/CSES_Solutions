@@ -1,73 +1,48 @@
-#include <vector>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
-
-typedef long long ll;
+typedef long long ll; 
 
 int main()
 {
-	string input;
-	ll n = 0;
-	ll twin{0};
-	ll twin_inside{0};
-	ll unique_elements{0};
-	vector<char> la_phrase;
-	vector<char> palindrome;
-	getline(cin , input);
-	for(char c : input)
-	{
-		la_phrase.push_back(c);
-		n++;
+	char x;
+	string palindrome;
+	ll occurence[26] = {0};
+	int odd = 0;
+	int index_odd;
+	while (cin >> x)
+	{	
+		int index = ((int)x - (int)'A') ;
+		occurence[index + 1]++;
 	}
-
-	
-	for(ll i = 0; i < n; i++)
-	{
-		palindrome.push_back(0);
-	}
-
-	
-	for (ll i = 0; i < n ; i++)
-	{
-		for(ll j = i+1; j <= n-1; j++)
+	for(int i = 0; i < 26 ; i++)
 		{
-			twin_inside = 0;
-			if(la_phrase[i] == la_phrase[j] && la_phrase[i] != '*')
+			if(occurence[i] % 2 != 0 && occurence[i] != 0)
 			{
-				twin++;
-				palindrome[twin - 1] = la_phrase[i];
-				palindrome[n - twin] = la_phrase[i];
-				la_phrase[j] ='*';
-				la_phrase[i] = '*';
-				twin_inside++;
+				odd++;
+				index_odd = i;
+			}
+			else if(occurence[i] % 2 == 0 && odd < 2 && occurence[i] != 0)
+			{
+				palindrome.append((occurence[i] / 2) , (char)(i + 65));
+			}
+			else if(odd >= 2)
+			{
+				cout << "NO SOLUTION";
 				break;
 			}
 		}
-		if (!twin_inside && la_phrase[i] != '*')
+		string pali_reverse = palindrome;
+		reverse(pali_reverse.begin(), pali_reverse.end());
+		
+		if(odd < 2 && odd > 0)
 		{
-			unique_elements++;
-			ll m;
-			if ( n % 2 ) m = n / 2;
-			else m = ((int) n / 2) + 1;
-			palindrome[m] = la_phrase[i];
-			
+			palindrome.append(occurence[index_odd] , (char)(index_odd + 65));
 		}
-		if(unique_elements == 2)
-		{
-			cout << "NO SOLUTION" << endl;
-			break;
-			return 0;
-		}
-	}
-	if(unique_elements < 2)
-	{
-		for(ll i = 0 ; i < n; i++)
-		{
-			cout << palindrome[i];
-		}
-	}
+		cout << palindrome + pali_reverse;
+
 
 }

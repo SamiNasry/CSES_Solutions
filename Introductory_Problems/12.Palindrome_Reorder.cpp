@@ -8,15 +8,16 @@ typedef long long ll;
 
 int main()
 {
-	char x;
+	string input;
+	cin >> input;
 	string palindrome;
 	ll occurence[26] = {0};
 	int odd = 0;
 	int index_odd;
-	while (cin >> x)
-	{	
+	for(char x : input)
+	{
 		int index = ((int)x - (int)'A') ;
-		occurence[index + 1]++;
+		occurence[index]++;
 	}
 	for(int i = 0; i < 26 ; i++)
 		{
@@ -31,7 +32,7 @@ int main()
 			}
 			else if(odd >= 2)
 			{
-				cout << "NO SOLUTION";
+				cout << "NO SOLUTION"<< endl;
 				break;
 			}
 		}
@@ -42,7 +43,8 @@ int main()
 		{
 			palindrome.append(occurence[index_odd] , (char)(index_odd + 65));
 		}
-		cout << palindrome + pali_reverse;
-
-
+		if(odd < 2)
+		{
+			cout << palindrome + pali_reverse;
+		}
 }

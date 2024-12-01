@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <set>
+#include <cmath>
 
 using namespace std;
 
@@ -7,40 +9,40 @@ typedef long long ll;
 
 int main()
 {
-	ll n;
+	ll x;
+	int n;
 	cin >> n;
-	vector<int> weights(n);
-	ll p;
-	ll biggest = 0;
-	ll biggest_index = 0;
-	
-	for (int i = 0 ; i < n ; i++)
+	vector<ll> w;
+	ll min_sum = 0;
+
+	for(int i = 0; i < n; i++)
 	{
-		cin >> p;
-		weights[i] = p;
-		if(p > biggest)
+		cin >> x;
+		w.push_back(x);
+		min_sum+=x;
+	}
+
+	for(ll i = 0; i < (1LL << n) ; i++)
+	{
+		ll sum1{0},sum2{0};
+		for(ll j = 0; j < n ; j++)
 		{
-			biggest = p;
-			biggest_index = i;
+			if(i & (1LL << j))
+					{
+						sum1+=w[j];
+					}
+			else
+			{
+					sum2+=w[j];
+			}
 		}
-		else continue;
+		if(abs(sum1 - sum2) < min_sum) min_sum = abs(sum1 - sum2);
+		
 	}
-
-	ll set1 = 0;
-	ll set2 = 0;
-
-	set1+=biggest;
-	weights[biggest_index] = 0;	
-	for(int i = 0; i < n ; i++)
-	{
-		if (set1 > set2) set2+=weights[i];
-		else set1+=weights[i];
-	}
-
-	if(set1 > set2) cout << set1 - set2;
-	else cout << set2 - set1;
+	
 
 
+	cout << min_sum << endl;
 	
 
 }
